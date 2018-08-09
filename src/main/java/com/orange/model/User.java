@@ -25,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 public class User {
 
+	// TODO Encrypt password before save
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
