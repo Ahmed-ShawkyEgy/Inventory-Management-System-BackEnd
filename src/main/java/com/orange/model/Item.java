@@ -8,6 +8,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,6 +36,10 @@ public class Item {
 	private String description;
     @NotBlank
 	private Date purchase_date;
+    
+    @ManyToOne
+    @JoinColumn(name="user_id",nullable=true)
+    private User owner;
     
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -101,6 +107,14 @@ public class Item {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public User getUser() {
+		return owner;
+	}
+
+	public void setUser(User user) {
+		this.owner = user;
 	}
     
     
