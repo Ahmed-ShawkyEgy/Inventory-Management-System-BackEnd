@@ -1,0 +1,1 @@
+CREATE TABLE `inventory`.`users` ( `id` INT(45) NOT NULL , `email` VARCHAR(45) NOT NULL , `password` VARCHAR(45) NOT NULL , `first_name` VARCHAR(45) NOT NULL , `last_name` VARCHAR(45) NOT NULL , PRIMARY KEY (`id`) USING HASH) ENGINE = InnoDB;
