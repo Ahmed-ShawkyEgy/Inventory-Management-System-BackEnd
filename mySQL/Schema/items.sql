@@ -1,0 +1,1 @@
+CREATE TABLE `inventory`.`items` ( `id` INT(45) NOT NULL , `name` VARCHAR(45) NOT NULL , `description` TEXT NULL , `purchase_date` DATE NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
