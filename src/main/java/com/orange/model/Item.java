@@ -8,12 +8,11 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -34,13 +33,10 @@ public class Item {
 	private String name;
     
 	private String description;
-    @NotBlank
+	@NotNull 
 	private Date purchase_date;
-    
-    @ManyToOne
-    @JoinColumn(name="user_id",nullable=true)
-    private User owner;
-    
+
+
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -109,14 +105,7 @@ public class Item {
 		this.updatedAt = updatedAt;
 	}
 
-	public User getUser() {
-		return owner;
-	}
 
-	public void setUser(User user) {
-		this.owner = user;
-	}
-    
-    
+
     
 }
