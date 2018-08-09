@@ -29,8 +29,9 @@ public class User {
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
     @NotBlank
+    @Column(unique = true)
 	private String email;
     @NotBlank
 	private String password;
@@ -49,7 +50,9 @@ public class User {
     @LastModifiedDate
     private Date updatedAt;
 	
-	public User(long id,String email,String password,String first_name,String last_name) {
+    public User() {}
+    
+	public User(Long id,String email,String password,String first_name,String last_name) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
@@ -57,7 +60,7 @@ public class User {
 		this.last_name = last_name;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 

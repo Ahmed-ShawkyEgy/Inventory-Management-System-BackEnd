@@ -27,7 +27,7 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
     @NotBlank
 	private String name;
     
@@ -45,7 +45,9 @@ public class Item {
     @LastModifiedDate
     private Date updatedAt;
     
-    public Item(long id,String name,String description,Date purchase_date)
+    public Item() {}
+    
+    public Item(Long id,String name,String description,Date purchase_date)
     {
     	this.id = id;
     	this.name = name;
@@ -53,7 +55,7 @@ public class Item {
     	this.purchase_date = purchase_date;
     }
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
