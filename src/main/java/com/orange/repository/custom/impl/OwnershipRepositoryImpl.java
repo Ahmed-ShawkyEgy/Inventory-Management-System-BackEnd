@@ -34,4 +34,20 @@ public class OwnershipRepositoryImpl implements OwnershipRepositoryCustom {
 		query.executeUpdate();		
 	}
 
+	@Override
+	public void discardAllItemsByUser(Long userId) {
+		Query query = entityManager.createNativeQuery("DELETE FROM users_items WHERE user_id = ?");
+		query.setParameter(1, userId);
+		query.executeUpdate();		
+	}
+
+	@Override
+	public void discardAllItemsByItem(Long itemId) {
+		Query query = entityManager.createNativeQuery("DELETE FROM users_items WHERE items_id = ?");
+		query.setParameter(1, itemId);
+		query.executeUpdate();		
+	}
+	
+	
+
 }

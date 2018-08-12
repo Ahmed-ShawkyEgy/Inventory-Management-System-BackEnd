@@ -3,6 +3,7 @@ package com.orange.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -41,7 +42,7 @@ public class User {
 	private String first_name;
     @NotBlank
 	private String last_name;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Item> items;
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)

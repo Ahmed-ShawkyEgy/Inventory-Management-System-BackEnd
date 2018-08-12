@@ -18,13 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.orange.exception.ResourceNotFoundException;
 import com.orange.model.User;
 import com.orange.repository.UserRepository;
+import com.orange.repository.custom.OwnershipRepositoryCustom;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
 	
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+    @Autowired
+    private OwnershipRepositoryCustom ownershipRepositoryCustom;
     
     @GetMapping("/users")
     public List<User> getAllUsers()
@@ -69,7 +72,8 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-
+        
+        ownershipRepositoryCustom.discardAllItemsByUser(userId);
         userRepository.delete(user);
 
         return ResponseEntity.ok().build();

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.orange.exception.ResourceNotFoundException;
 import com.orange.model.Item;
 import com.orange.repository.ItemRepository;
+import com.orange.repository.custom.OwnershipRepositoryCustom;
 
 
 @RestController
@@ -25,7 +26,9 @@ import com.orange.repository.ItemRepository;
 public class ItemController {
 	
     @Autowired
-    ItemRepository itemRepository;
+    private ItemRepository itemRepository;
+    @Autowired
+    private OwnershipRepositoryCustom ownershipRepositoryCustom;
     
     @GetMapping("/items")
     public List<Item> getAllItems()
@@ -69,6 +72,7 @@ public class ItemController {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
 
+        ownershipRepositoryCustom.discardAllItemsByItem(itemId);
         itemRepository.delete(item);
 
         return ResponseEntity.ok().build();

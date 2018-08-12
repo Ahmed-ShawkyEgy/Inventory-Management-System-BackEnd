@@ -36,7 +36,6 @@ public class Item {
 	@NotNull 
 	private Date purchase_date;
 
-
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate

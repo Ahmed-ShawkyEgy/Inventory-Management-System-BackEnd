@@ -6,4 +6,8 @@ public interface OwnershipRepositoryCustom {
 	
 	void discardItem(Long userId,Long itemId);
 	
+	void discardAllItemsByUser(Long userId);
+	
+	void discardAllItemsByItem(Long itemId);
+	
 }
