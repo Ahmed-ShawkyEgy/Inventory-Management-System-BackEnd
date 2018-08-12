@@ -1,21 +1,28 @@
 package com.orange.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.NaturalId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,27 +30,43 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="users")
+@Table(name="users", uniqueConstraints = {
+            @UniqueConstraint(columnNames = {
+                "email"
+            })
+    })
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 public class User {
-
-	// TODO Encrypt password before save
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+    
     @NotBlank
+    @NaturalId
     @Column(unique = true)
-	private String email;
+    private String email;
+    
     @NotBlank
-	private String password;
+    private String password;
+    
     @NotBlank
-	private String first_name;
+    private String first_name;
+    
     @NotBlank
-	private String last_name;
+    private String last_name;
+ 
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Item> items;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -56,8 +79,7 @@ public class User {
 	
     public User() {}
     
-	public User(Long id,String email,String password,String first_name,String last_name) {
-		this.id = id;
+	public User(String email,String password,String first_name,String last_name) {
 		this.email = email;
 		this.password = password;
 		this.first_name = first_name;
@@ -126,6 +148,18 @@ public class User {
 
 	public void setItems(Set<Item> items) {
 		this.items = items;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	
