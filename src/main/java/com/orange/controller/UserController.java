@@ -34,13 +34,6 @@ public class UserController {
     	return userRepository.findAll();
     }
     
-//    // Create
-//    @PostMapping("/users")
-//    public User registerUser(@Valid @RequestBody User user)
-//    {
-//    	return userRepository.save(user);
-//    }
-    
     // Read
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable(value = "id") Long userId) {

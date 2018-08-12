@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ public class ItemController {
     private OwnershipRepositoryCustom ownershipRepositoryCustom;
     
     @GetMapping("/items")
+    @PreAuthorize("hasRole('USER')")
     public List<Item> getAllItems()
     {
     	return itemRepository.findAll();
@@ -38,9 +40,11 @@ public class ItemController {
     
     // Create
     @PostMapping("/items")
-    public Item registerItem(@Valid @RequestBody Item item)
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> registerItem(@Valid @RequestBody Item item)
     {
-    	return itemRepository.save(item);
+    	Item myItem = itemRepository.save(item);
+    	return ResponseEntity.ok().body(myItem);
     }
     
     // Read
@@ -52,7 +56,7 @@ public class ItemController {
     
     // Update
     @PutMapping("/items/{id}")
-    public Item updateItem(@PathVariable(value = "id") Long itemId,
+    public ResponseEntity<?> updateItem(@PathVariable(value = "id") Long itemId,
             @Valid @RequestBody Item itemDetails) {
 
 		Item item = itemRepository.findById(itemId)
@@ -63,7 +67,7 @@ public class ItemController {
 		item.setPurchase_date(itemDetails.getPurchase_date());
 		
 		Item updatedItem = itemRepository.save(item);
-		return updatedItem;
+		return ResponseEntity.ok().body(updatedItem);
 	}
     
     // Delete

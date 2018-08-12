@@ -1,6 +1,5 @@
 package com.orange.controller;
 
-import java.net.URI;
 import java.util.Collections;
 
 import javax.validation.Valid;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.orange.exception.AppException;
 import com.orange.model.Role;
@@ -87,13 +85,8 @@ public class AuthController {
 
         user.setRoles(Collections.singleton(userRole));
 
-        User result = userRepository.save(user);
+        userRepository.save(user);
 
-//        URI location = ServletUriComponentsBuilder
-//                .fromCurrentContextPath().path("/users/{username}")
-//                .buildAndExpand(result.getUsername()).toUri();
-//
-//        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
         return ResponseEntity.ok().body(new ApiResponse(true, "User registered successfully"));
     }
 }
