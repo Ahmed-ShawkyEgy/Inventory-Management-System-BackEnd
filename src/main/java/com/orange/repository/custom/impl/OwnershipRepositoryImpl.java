@@ -58,7 +58,5 @@ public class OwnershipRepositoryImpl implements OwnershipRepositoryCustom {
 		query.setParameter(1, itemId);
 		return (List<User>) query.getResultList();
 	}
-	
-	
 
 }
