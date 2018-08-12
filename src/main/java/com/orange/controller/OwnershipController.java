@@ -2,6 +2,8 @@ package com.orange.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,5 +41,10 @@ public class OwnershipController {
 		
 		return ResponseEntity.ok().body(new ApiResponse(true, "Item discarded successfully"));
 	}
+	
+	@GetMapping("/owner/{id}")
+	public ResponseEntity<?> findOwner(@PathVariable(value = "id") Long itemId) {
+		return ResponseEntity.ok().body(ownershipRepositoryCustom.findOwner(itemId));
+    }
 
 }
