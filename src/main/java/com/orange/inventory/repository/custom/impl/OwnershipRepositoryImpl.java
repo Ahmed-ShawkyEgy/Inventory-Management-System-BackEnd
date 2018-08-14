@@ -75,7 +75,7 @@ public class OwnershipRepositoryImpl implements OwnershipRepositoryCustom {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User>findOwner(Long itemId) {
-		Query query = entityManager.createNativeQuery("SELECT u.* FROM users_items ui , users u WHERE u.id = ui.user_id AND items_id=?");
+		Query query = entityManager.createNativeQuery("SELECT u.id,u.email,u.first_name,u.last_name FROM users_items ui , users u WHERE u.id = ui.user_id AND items_id=?");
 		query.setParameter(1, itemId);
 		return (List<User>) query.getResultList();
 	}
