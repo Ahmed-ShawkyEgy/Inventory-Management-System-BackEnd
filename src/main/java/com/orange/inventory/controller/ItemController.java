@@ -79,7 +79,7 @@ public class ItemController {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
 
-        ownershipRepositoryCustom.discardAllItemsByItem(itemId);
+        ownershipRepositoryCustom.removeItemOwnership(itemId);
         itemRepository.delete(item);
 
         return ResponseEntity.ok().build();

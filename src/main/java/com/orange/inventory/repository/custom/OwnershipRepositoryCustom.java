@@ -12,7 +12,7 @@ public interface OwnershipRepositoryCustom {
 	
 	void discardAllItemsByUser(Long userId);
 	
-	void discardAllItemsByItem(Long itemId);
+	void removeItemOwnership(Long itemId);
 	
 	List<User> findOwner(Long itemId);
 	

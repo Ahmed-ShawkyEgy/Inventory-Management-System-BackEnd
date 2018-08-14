@@ -5,9 +5,12 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,8 +34,8 @@ public class Item {
 	private Long id;
     
     @NotBlank
+    @NotNull
 	private String name;
-    
     
 	private String description;
 	
@@ -41,6 +44,10 @@ public class Item {
 	
 	private double price;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "owner", nullable = true)
+	private User owner;
+	
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -121,6 +128,14 @@ public class Item {
 	@Override
 	public String toString() {
 		return "(Item) name:"+name+" price:"+price+" description:"+description+" purchase date:"+purchase_date;
+	}
+
+	public User getOwner() {
+		return owner;
+	}
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 
     

@@ -53,10 +53,12 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
+    	String email = loginRequest.getEmail();
+    	String password = loginRequest.getPassword();
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
+                        email,
+                        password
                 )
         );
         System.out.println("User "+loginRequest.getEmail() + " has logged in at "+ Instant.now());
@@ -64,7 +66,9 @@ public class AuthController {
 
         String jwt = tokenProvider.generateToken(authentication);
         System.out.println("Token : "+jwt);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        
+        User user = userRepository.findByEmail(email).get();
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,user.getId(),user.getRoles()));
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
