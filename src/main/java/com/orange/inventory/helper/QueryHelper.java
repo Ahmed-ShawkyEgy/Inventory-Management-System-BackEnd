@@ -11,15 +11,22 @@ public class QueryHelper {
 		List<HashMap<String, Object>> map = new ArrayList<HashMap<String, Object>>();
 		for(Object i: rows)
 		{
-			HashMap<String, Object> row = new HashMap<>();
-			for(int idx = 0 ; idx < ((Object[])i).length;idx++)		
-			{
-				row.put(columns[idx], ((Object[])i)[idx]);
-			}
-			map.add(row);
+			map.add(queryToMap((Object[])i, columns));
 		}
 		return map;		
 	
+	}
+	
+	public static HashMap<String, Object> queryToMap(Object[] row,String[] columns)
+	{
+		if(columns.length!=row.length)
+			throw new RuntimeException("Cannot map columns to given row");
+		HashMap<String, Object> result = new HashMap<>();
+		for(int i = 0; i < row.length;i++)
+		{
+			result.put(columns[i], row[i]);
+		}
+		return result;
 	}
 	
 }

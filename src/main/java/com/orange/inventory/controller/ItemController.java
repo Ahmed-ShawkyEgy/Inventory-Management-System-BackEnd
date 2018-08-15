@@ -49,9 +49,12 @@ public class ItemController {
     
     // Read
     @GetMapping("/items/{id}")
-    public Item getItemById(@PathVariable(value = "id") Long itemId) {
-        return itemRepository.findById(itemId)
-                .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+    public ResponseEntity<?> getItemById(@PathVariable(value = "id") Long itemId) {
+//    	try {
+    		return ResponseEntity.ok().body(itemRepository.findItem(itemId));
+//    	}catch (Exception e) {
+//    		throw new ResourceNotFoundException("Item", "id", itemId);
+//    	}
     }
     
     // Update

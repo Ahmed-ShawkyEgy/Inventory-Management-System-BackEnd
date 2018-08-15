@@ -7,4 +7,5 @@ public interface ItemRepositoryCustom {
 
 	public List<HashMap<String, Object>> findAllItems();
 	
+	public HashMap<String, Object> findItem(Long itemId);
 }

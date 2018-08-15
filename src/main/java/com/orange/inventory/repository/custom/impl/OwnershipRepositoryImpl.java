@@ -81,7 +81,7 @@ public class OwnershipRepositoryImpl implements OwnershipRepositoryCustom {
 				+ " FROM users_items ui , users u"
 				+ " WHERE u.id = ui.user_id AND items_id=?");
 		query.setParameter(1, itemId);
-		String[] columns = "user_id,user_first_name,user_last_name".split(",");
+		String[] columns = "user_id,user_email,user_first_name,user_last_name".split(",");
 		List<Object[]> rows = query.getResultList();
 		return QueryHelper.queryToMapList(rows, columns);
 	}
