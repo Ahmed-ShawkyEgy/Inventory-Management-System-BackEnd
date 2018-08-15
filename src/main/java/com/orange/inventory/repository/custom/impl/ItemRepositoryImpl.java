@@ -24,13 +24,17 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
     EntityManager entityManager;
 	
 	@Override
-	public List<HashMap<String, Object>> findAllItems() {
+	public List<HashMap<String, Object>> findAllItems(int offset,int limit) {
 		
 		Query query = entityManager.createNativeQuery(
 				"SELECT i.id , i.name , i.description , i.price , i.purchase_date,"
 				+ "u.id as 'user_id',u.email,u.first_name, u.last_name "
 				+ "FROM items i LEFT JOIN users u "
 				+ "ON i.owner = u.id");
+		
+		
+		query.setFirstResult(offset);
+		query.setMaxResults(limit);
 		
 		String[] columns = "item_id,item_name,item_description,item_price,purchase_date,owner_id,owner_email,owner_first_name,owner_last_name".split(",");
 		@SuppressWarnings("unchecked")

@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface ItemRepositoryCustom {
 
-	public List<HashMap<String, Object>> findAllItems();
-	
 	public HashMap<String, Object> findItem(Long itemId);
+
+	public List<HashMap<String, Object>> findAllItems(int offset, int limit);
 }

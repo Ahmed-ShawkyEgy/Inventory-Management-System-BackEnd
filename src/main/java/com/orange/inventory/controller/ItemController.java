@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orange.inventory.exception.ResourceNotFoundException;
@@ -31,10 +32,10 @@ public class ItemController {
     
     @GetMapping("/items")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getAllItems()
+    public ResponseEntity<?> getAllItems(@RequestParam("offset") int offset, @RequestParam("limit") int limit)
     {
 //    	return itemRepository.findAll();
-    	return ResponseEntity.ok().body(itemRepository.findAllItems());
+    	return ResponseEntity.ok().body(itemRepository.findAllItems(offset,limit));
     }
     
     // Create
