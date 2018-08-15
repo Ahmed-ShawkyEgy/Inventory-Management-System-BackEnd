@@ -27,6 +27,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -49,6 +50,7 @@ public class User {
     private String email;
     
     @NotBlank
+    @JsonIgnore
     private String password;
     
     @NotBlank
@@ -58,6 +60,7 @@ public class User {
     private String last_name;
  
     @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
     private Set<Item> items;
     
     @ManyToMany(fetch = FetchType.LAZY)

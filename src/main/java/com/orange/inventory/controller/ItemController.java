@@ -1,7 +1,5 @@
 package com.orange.inventory.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +31,10 @@ public class ItemController {
     
     @GetMapping("/items")
     @PreAuthorize("hasRole('USER')")
-    public List<Item> getAllItems()
+    public ResponseEntity<?> getAllItems()
     {
-    	return itemRepository.findAll();
+//    	return itemRepository.findAll();
+    	return ResponseEntity.ok().body(itemRepository.findAllItems());
     }
     
     // Create
