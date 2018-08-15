@@ -50,11 +50,7 @@ public class ItemController {
     // Read
     @GetMapping("/items/{id}")
     public ResponseEntity<?> getItemById(@PathVariable(value = "id") Long itemId) {
-//    	try {
-    		return ResponseEntity.ok().body(itemRepository.findItem(itemId));
-//    	}catch (Exception e) {
-//    		throw new ResourceNotFoundException("Item", "id", itemId);
-//    	}
+		return ResponseEntity.ok().body(itemRepository.findItem(itemId));
     }
     
     // Update
