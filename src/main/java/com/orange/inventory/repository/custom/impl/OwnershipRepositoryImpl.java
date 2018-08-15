@@ -1,5 +1,6 @@
 package com.orange.inventory.repository.custom.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,7 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import com.orange.inventory.model.User;
+import com.orange.inventory.helper.QueryHelper;
 import com.orange.inventory.repository.custom.OwnershipRepositoryCustom;
 
 @Repository
@@ -74,10 +75,15 @@ public class OwnershipRepositoryImpl implements OwnershipRepositoryCustom {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User>findOwner(Long itemId) {
-		Query query = entityManager.createNativeQuery("SELECT u.id,u.email,u.first_name,u.last_name	 FROM users_items ui , users u WHERE u.id = ui.user_id AND items_id=?");
+	public List<HashMap<String, Object>> findOwner(Long itemId) {
+		Query query = entityManager.createNativeQuery(
+				  "SELECT u.id,u.email,u.first_name,u.last_name	"
+				+ " FROM users_items ui , users u"
+				+ " WHERE u.id = ui.user_id AND items_id=?");
 		query.setParameter(1, itemId);
-		return (List<User>) query.getResultList();
+		String[] columns = "user_id,user_first_name,user_last_name".split(",");
+		List<Object[]> rows = query.getResultList();
+		return QueryHelper.queryToMapList(rows, columns);
 	}
 
 }

@@ -34,6 +34,12 @@ public class UserController {
     	return userRepository.findAll();
     }
     
+    @GetMapping("/users/myitems/{id}")
+    public ResponseEntity<?> findMyItems(@PathVariable(value = "id") Long userId)
+    {
+    	return ResponseEntity.ok().body(userRepository.findById(userId).get().getItems());
+    }
+    
     // Read
     @GetMapping("/users/{id}")
     public User getUserById(@PathVariable(value = "id") Long userId) {

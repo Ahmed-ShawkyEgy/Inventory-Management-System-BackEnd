@@ -1,9 +1,7 @@
 package com.orange.inventory.repository.custom.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,7 +33,8 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
 				+ "ON i.owner = u.id");
 		
 		String[] columns = "item_id,item_name,item_description,item_price,purchase_date,owner_id,owner_email,owner_first_name,owner_last_name".split(",");
-		List rows = query.getResultList();
+		@SuppressWarnings("unchecked")
+		List<Object[]> rows = query.getResultList();
 		return QueryHelper.queryToMapList(rows, columns);		
 	}
 
