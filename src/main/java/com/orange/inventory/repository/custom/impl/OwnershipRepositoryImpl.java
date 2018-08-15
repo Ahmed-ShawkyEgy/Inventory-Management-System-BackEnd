@@ -1,7 +1,6 @@
 package com.orange.inventory.repository.custom.impl;
 
 import java.util.HashMap;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -73,17 +72,17 @@ public class OwnershipRepositoryImpl implements OwnershipRepositoryCustom {
 		query.executeUpdate();		
 	}
 
-	@SuppressWarnings("unchecked")
+
 	@Override
-	public List<HashMap<String, Object>> findOwner(Long itemId) {
+	public HashMap<String, Object> findOwner(Long itemId) {
 		Query query = entityManager.createNativeQuery(
 				  "SELECT u.id,u.email,u.first_name,u.last_name	"
 				+ " FROM users_items ui , users u"
 				+ " WHERE u.id = ui.user_id AND items_id=?");
 		query.setParameter(1, itemId);
 		String[] columns = "user_id,user_email,user_first_name,user_last_name".split(",");
-		List<Object[]> rows = query.getResultList();
-		return QueryHelper.queryToMapList(rows, columns);
+		Object[] row = (Object[]) query.getSingleResult();
+		return QueryHelper.queryToMap(row, columns);
 	}
 
 }

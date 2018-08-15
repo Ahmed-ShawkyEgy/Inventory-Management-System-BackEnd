@@ -1,7 +1,6 @@
 package com.orange.inventory.repository.custom;
 
 import java.util.HashMap;
-import java.util.List;
 
 public interface OwnershipRepositoryCustom {
 
@@ -13,6 +12,6 @@ public interface OwnershipRepositoryCustom {
 	
 	void removeItemOwnership(Long itemId);
 	
-	List<HashMap<String, Object>> findOwner(Long itemId);
+	HashMap<String, Object> findOwner(Long itemId);
 	
 }
