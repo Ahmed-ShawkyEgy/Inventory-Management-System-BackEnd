@@ -30,7 +30,7 @@ public class ItemController {
     private OwnershipRepositoryCustom ownershipRepositoryCustom;
     
     @GetMapping("/items")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getAllItems()
     {
 //    	return itemRepository.findAll();
@@ -40,7 +40,7 @@ public class ItemController {
     
     // Create
     @PostMapping("/items")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> registerItem(@Valid @RequestBody Item item)
     {
     	Item myItem = itemRepository.save(item);
