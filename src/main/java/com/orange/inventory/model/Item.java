@@ -5,12 +5,9 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,22 +30,26 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+   
+    @NotBlank
+    @NotNull
+    private String serial;
     
     @NotBlank
     @NotNull
+    @Column(length = 500)
 	private String name;
     
+    @Column(length = 500)
 	private String description;
 	
 	@NotNull 
 	private Date purchase_date;
 	
+	@NotNull
 	private double price;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name = "owner", nullable = true)
-    @JsonIgnore
-	private User owner;
+	private String owner;
 	
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -132,13 +133,22 @@ public class Item {
 		return "(Item) name:"+name+" price:"+price+" description:"+description+" purchase date:"+purchase_date;
 	}
 
-	public User getOwner() {
+	public String getOwner() {
 		return owner;
 	}
 
-	public void setOwner(User owner) {
+	public void setOwner(String owner) {
 		this.owner = owner;
 	}
 
+	public String getSerial() {
+		return serial;
+	}
+
+	public void setSerial(String serial) {
+		this.serial = serial;
+	}
+
+	
     
 }

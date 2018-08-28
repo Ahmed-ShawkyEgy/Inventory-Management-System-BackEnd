@@ -23,10 +23,10 @@ public class OwnershipController {
 	@PostMapping("/acquire")
 	public ResponseEntity<?> acquireItem(@RequestBody  OwnershipWrapper ownershipWrapper)
 	{
-		Long userId = ownershipWrapper.getUserId();
+		String ownerName = ownershipWrapper.getOwnerName();
 		Long itemId = ownershipWrapper.getItemId();
 		
-		ownershipRepositoryCustom.acquireItem(userId, itemId);
+		ownershipRepositoryCustom.acquireItem(ownerName, itemId);
 
 		return ResponseEntity.ok().body(new ApiResponse(true, "Item acquired successfully"));
 	}

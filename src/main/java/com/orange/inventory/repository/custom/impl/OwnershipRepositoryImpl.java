@@ -22,16 +22,10 @@ public class OwnershipRepositoryImpl implements OwnershipRepositoryCustom {
     EntityManager entityManager;
 
 	@Override
-	public void acquireItem(Long userId, Long itemId) {
-		removeItemOwnership(itemId);
-		Query query = entityManager.createNativeQuery(
-				"INSERT INTO users_items (user_id,items_id) VALUES (?,?);");
-		query.setParameter(1, userId);
-		query.setParameter(2, itemId);		
-		query.executeUpdate();
-		
-		query = entityManager.createNativeQuery("UPDATE items SET owner=? where id=?;");
-		query.setParameter(1, userId);
+	public void acquireItem(String ownerName, Long itemId) {
+
+		Query query = entityManager.createNativeQuery("UPDATE items SET owner=? where id=?;");
+		query.setParameter(1, ownerName);
 		query.setParameter(2, itemId);
 		query.executeUpdate();
 	}
@@ -63,12 +57,7 @@ public class OwnershipRepositoryImpl implements OwnershipRepositoryCustom {
 
 	@Override
 	public void removeItemOwnership(Long itemId) {
-		Query query = entityManager.createNativeQuery("DELETE FROM users_items WHERE items_id = ?");
-		query.setParameter(1, itemId);
-		query.executeUpdate();		
-		
-		
-		query = entityManager.createNativeQuery("UPDATE items SET owner=null where id=?;");
+		Query query = entityManager.createNativeQuery("UPDATE items SET owner=null where id=?;");
 		query.setParameter(1, itemId);
 		query.executeUpdate();		
 	}

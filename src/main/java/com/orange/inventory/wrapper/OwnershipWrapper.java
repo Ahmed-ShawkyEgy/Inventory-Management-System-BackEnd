@@ -2,21 +2,29 @@ package com.orange.inventory.wrapper;
 
 public class OwnershipWrapper {
 
-	private Long userId;
+	private String ownerName;
 	private Long itemId;
 	
-	public OwnershipWrapper(Long userId,Long itemId) {
+	public OwnershipWrapper(String ownerName,Long itemId) {
 
-		this.userId = userId;
+		this.ownerName = ownerName;
 		this.itemId = itemId;
 	}
 	
-	public Long getUserId() {
-		return userId;
+
+	
+	public String getOwnerName() {
+		return ownerName;
 	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
+
+
+
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
+
+
+
 	public Long getItemId() {
 		return itemId;
 	}

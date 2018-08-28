@@ -35,7 +35,7 @@ public class ItemController {
     {
 //    	return itemRepository.findAll();
 //    	return ResponseEntity.ok().body(itemRepository.findAllItems(offset,limit));
-    	return ResponseEntity.ok().body(itemRepository.findAllItems());
+    	return ResponseEntity.ok().body(itemRepository.findAll());
     }
     
     // Create

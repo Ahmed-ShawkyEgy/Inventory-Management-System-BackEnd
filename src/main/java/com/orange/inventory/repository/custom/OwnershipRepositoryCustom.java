@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public interface OwnershipRepositoryCustom {
 
-	void acquireItem(Long userId,Long itemId);
+	void acquireItem(String ownerName,Long itemId);
 	
 	void discardItem(Long userId,Long itemId);
 	
