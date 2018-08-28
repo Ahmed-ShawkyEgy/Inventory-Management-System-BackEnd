@@ -22,6 +22,21 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
 
     @PersistenceContext
     EntityManager entityManager;
+    
+    
+    @Override
+    public List<HashMap<String, Object>> findAllItems() {
+		Query query = entityManager.createNativeQuery(
+				"SELECT i.id , i.name , i.description , i.price , i.purchase_date,"
+				+ "u.id as 'user_id',u.email,u.first_name, u.last_name "
+				+ "FROM items i LEFT JOIN users u "
+				+ "ON i.owner = u.id");
+		
+		String[] columns = "id,name,description,price,purchase_date,owner_id,owner_email,owner_first_name,owner_last_name".split(",");
+		@SuppressWarnings("unchecked")
+		List<Object[]> rows = query.getResultList();
+		return QueryHelper.queryToMapList(rows, columns);		
+    }
 	
 	@Override
 	public List<HashMap<String, Object>> findAllItems(int offset,int limit) {
@@ -55,6 +70,9 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
 		Object[] row = (Object[]) query.getSingleResult();
 		return QueryHelper.queryToMap(row, columns);		
 	}
+
+
+
 
 	
 }

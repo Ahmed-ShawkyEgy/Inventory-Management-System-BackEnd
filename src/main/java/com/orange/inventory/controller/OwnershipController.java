@@ -34,10 +34,11 @@ public class OwnershipController {
 	@PostMapping("/discard")
 	public ResponseEntity<?> discardItem(@RequestBody  OwnershipWrapper ownershipWrapper)
 	{
-		Long userId = ownershipWrapper.getUserId();
+//		Long userId = ownershipWrapper.getUserId();
 		Long itemId = ownershipWrapper.getItemId();
 		
-		ownershipRepositoryCustom.discardItem(userId, itemId);
+//		ownershipRepositoryCustom.discardItem(userId, itemId);
+		ownershipRepositoryCustom.removeItemOwnership(itemId);
 		
 		return ResponseEntity.ok().body(new ApiResponse(true, "Item discarded successfully"));
 	}

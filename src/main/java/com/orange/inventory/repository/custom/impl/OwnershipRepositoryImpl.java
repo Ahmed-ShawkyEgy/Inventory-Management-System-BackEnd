@@ -23,6 +23,7 @@ public class OwnershipRepositoryImpl implements OwnershipRepositoryCustom {
 
 	@Override
 	public void acquireItem(Long userId, Long itemId) {
+		removeItemOwnership(itemId);
 		Query query = entityManager.createNativeQuery(
 				"INSERT INTO users_items (user_id,items_id) VALUES (?,?);");
 		query.setParameter(1, userId);
