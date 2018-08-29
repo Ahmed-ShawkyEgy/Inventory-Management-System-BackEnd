@@ -18,7 +18,6 @@ import com.orange.inventory.exception.ResourceNotFoundException;
 import com.orange.inventory.model.Item;
 import com.orange.inventory.payload.ApiResponse;
 import com.orange.inventory.repository.ItemRepository;
-import com.orange.inventory.repository.custom.OwnershipRepositoryCustom;
 import com.orange.inventory.wrapper.OwnershipWrapper;
 
 
@@ -29,8 +28,6 @@ public class ItemController {
 	
     @Autowired
     private ItemRepository itemRepository;
-    @Autowired
-    private OwnershipRepositoryCustom ownershipRepositoryCustom;
     
     @GetMapping("/items")
     public ResponseEntity<?> getAllItems()
@@ -50,7 +47,7 @@ public class ItemController {
     // Read
     @GetMapping("/items/{id}")
     public ResponseEntity<?> getItemById(@PathVariable(value = "id") Long itemId) {
-		return ResponseEntity.ok().body(itemRepository.findItem(itemId));
+		return ResponseEntity.ok().body(itemRepository.findById(itemId));
     }
     
     // Update
@@ -78,7 +75,6 @@ public class ItemController {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
 
-        ownershipRepositoryCustom.removeItemOwnership(itemId);
         itemRepository.delete(item);
 
         return ResponseEntity.ok().build();
