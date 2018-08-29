@@ -4,7 +4,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.orange.inventory.exception.ResourceNotFoundException;
 import com.orange.inventory.model.Item;
+import com.orange.inventory.payload.ApiResponse;
 import com.orange.inventory.repository.ItemRepository;
 import com.orange.inventory.repository.custom.OwnershipRepositoryCustom;
+import com.orange.inventory.wrapper.OwnershipWrapper;
 
 
 @RestController
@@ -30,17 +31,13 @@ public class ItemController {
     private OwnershipRepositoryCustom ownershipRepositoryCustom;
     
     @GetMapping("/items")
-//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getAllItems()
     {
-//    	return itemRepository.findAll();
-//    	return ResponseEntity.ok().body(itemRepository.findAllItems(offset,limit));
     	return ResponseEntity.ok().body(itemRepository.findAll());
     }
     
     // Create
     @PostMapping("/items")
-//    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> registerItem(@Valid @RequestBody Item item)
     {
     	Item myItem = itemRepository.save(item);
@@ -83,5 +80,29 @@ public class ItemController {
 
         return ResponseEntity.ok().build();
     }
+    
+    
+	@PostMapping("/items/acquire")
+	public ResponseEntity<?> acquireItem(@RequestBody  OwnershipWrapper ownershipWrapper)
+	{
+		String ownerName = ownershipWrapper.getOwnerName();
+		Long itemId = ownershipWrapper.getItemId();
+
+		Item item = itemRepository.findById(itemId)
+				.orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+		
+		item.setOwner(ownerName);
+		
+		return ResponseEntity.ok().body(new ApiResponse(true, "Item acquired successfully"));
+	}
+	
+	@PostMapping("/items/discard/{id}")
+	public ResponseEntity<?> discardItem(@PathVariable(value = "id") Long itemId)
+	{
+		Item item = itemRepository.findById(itemId)
+				.orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
+		item.setOwner(null);		
+		return ResponseEntity.ok().body(new ApiResponse(true, "Item discarded successfully"));
+	}
     
 }
