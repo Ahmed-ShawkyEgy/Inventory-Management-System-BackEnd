@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import com.orange.inventory.wrapper.OwnershipWrapper;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(maxAge = 3600)
 public class ItemController {
 	
     @Autowired
@@ -59,6 +61,7 @@ public class ItemController {
 		Item item = itemRepository.findById(itemId)
 		.orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
 
+		item.setSerial(itemDetails.getSerial());
 		item.setName(itemDetails.getName());
 		item.setPrice(itemDetails.getPrice());
 		item.setDescription(itemDetails.getDescription());
@@ -93,6 +96,8 @@ public class ItemController {
 		
 		item.setOwner(ownerName);
 		
+		Item updatedItem = itemRepository.save(item);
+		System.out.println(updatedItem + " updated successfully");
 		return ResponseEntity.ok().body(new ApiResponse(true, "Item acquired successfully"));
 	}
 	
@@ -102,6 +107,9 @@ public class ItemController {
 		Item item = itemRepository.findById(itemId)
 				.orElseThrow(() -> new ResourceNotFoundException("Item", "id", itemId));
 		item.setOwner(null);		
+		
+		Item updatedItem = itemRepository.save(item);
+		System.out.println(updatedItem + " updated successfully");
 		return ResponseEntity.ok().body(new ApiResponse(true, "Item discarded successfully"));
 	}
     

@@ -30,8 +30,8 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
    
-    @NotBlank
-    @NotNull
+//    @NotBlank
+//    @NotNull
     private String serial;
     
     @NotBlank
